@@ -2,10 +2,8 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxtjs/tailwindcss"],
-  ssr: false,
   app: {
-    
-
+    cdnURL: "https://stillmisty.github.io/musicPlay",
     head: {
       title: "Music Play",
     },
