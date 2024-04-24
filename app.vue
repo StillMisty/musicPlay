@@ -8,12 +8,12 @@
       loop
       class="absolute top-0 left-0 w-full h-full object-cover z-[-1] blur-md"
     >
-      <source src="/public/lian.mp4" type="video/mp4" />
-      <source src="/public/lian.webp" type="image/webp" />
+      <source src="/assets/lian.mp4" type="video/mp4" />
+      <source src="/assets/lian.webp" type="image/webp" />
     </video>
     <video autoplay muted loop id="myVideo" class="rounded-md md:w-96">
-      <source src="/public/lian.mp4" type="video/mp4" />
-      <source src="/public/lian.webp" type="image/webp" />
+      <source src="/assets/lian.mp4" type="video/mp4" />
+      <source src="/assets/lian.webp" type="image/webp" />
     </video>
     <div class="flex justify-around items-center md:w-96 md:flex-col md:gap-8">
       <Introduction :title="music.title" :author="music.author" />
@@ -47,7 +47,7 @@
           ></path>
         </svg>
         <audio class="hidden">
-          <source src="./public/lian.m4a" type="audio/mpeg" />
+          <source src="./assets/lian.m4a" type="audio/mpeg" />
         </audio>
       </button>
     </div>
@@ -66,7 +66,7 @@ interface Music {
 const music: Music = {
   title: ref("《5:20AM》"),
   author: ref("AI東 雪蓮"),
-  src: ref("./public/lian.m4a"),
+  src: ref("./assets/lian.m4a"),
   state: ref(false),
 };
 

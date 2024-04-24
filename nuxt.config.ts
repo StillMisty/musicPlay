@@ -3,9 +3,16 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxtjs/tailwindcss"],
   app: {
-    cdnURL: "https://stillmisty.github.io/musicPlay",
+    cdnURL: "./",
     head: {
       title: "Music Play",
+      link: [
+        {
+          rel: "icon",
+          type: "image/x-icon",
+          href: "/favicon.ico",
+        },
+      ],
     },
   },
   tailwindcss: {
