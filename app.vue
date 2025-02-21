@@ -12,9 +12,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-
-import Introduction from "@/components/Introduction.vue";
-import PlayMusic from "@/components/PlayMusic.vue";
 import videoFile from '@/assets/lian.mp4'
 import musicJson from "@/assets/music.json";
 
