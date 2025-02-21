@@ -20,7 +20,7 @@ const musicIndex = ref(0);
 const music = {
   title: ref(musicJson[musicIndex.value].title),
   author: ref(musicJson[musicIndex.value].author),
-  src: ref(`/_nuxt/assets/music/${musicJson[musicIndex.value].src}`),
+  src: ref(`/assets/music/${musicJson[musicIndex.value].src}`),
   state: ref(false),
 };
 
