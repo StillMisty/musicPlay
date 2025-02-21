@@ -14,24 +14,34 @@
 <script lang="ts" setup>
 import videoFile from '@/assets/lian.mp4'
 import musicJson from "@/assets/music.json";
+const musicModules = import.meta.glob('@/assets/music/*.m4a');
+
 
 const musicIndex = ref(0);
 
 const music = {
   title: ref(musicJson[musicIndex.value].title),
   author: ref(musicJson[musicIndex.value].author),
-  src: ref(`/assets/music/${musicJson[musicIndex.value].src}`),
+  src: ref(await loadMusic()),
   state: ref(false),
 };
+
+loadMusic();
 
 watch(musicIndex, (index) => {
   music.title.value = musicJson[index].title;
   music.author.value = musicJson[index].author;
-  music.src.value = `/_nuxt/assets/music/${musicJson[index].src}`;
+  loadMusic().then((src) => {
+    music.src.value = src;
+  });
 });
 
 const videoSrc = ref(videoFile);
 
+async function loadMusic() {
+    const module = await musicModules[`/assets/music/${musicJson[musicIndex.value].src}`]() as {default: string};
+    return module.default;
+  };
 
 function play() {
   const audio = document.querySelector("audio") as HTMLAudioElement;
