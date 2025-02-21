@@ -5,7 +5,7 @@
     </video>
     <video autoplay muted loop id="myVideo" class="rounded-md md:w-96" type="video/mp4" :src="videoSrc">
     </video>
-    <div class="opacity-50 flex justify-around items-center md:w-96 md:flex-col md:gap-8">
+    <div class="opacity-50 flex-col flex gap-4 justify-around items-center md:w-96 md:gap-8">
       <Introduction :title="music.title" :author="music.author" />
       <PlayMusic :audioSrc="music.src" :state="music.state" @play="play" @last="last" @next="next" />
     </div>
