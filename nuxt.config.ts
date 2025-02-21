@@ -1,7 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss"],
+
   app: {
     cdnURL: "./",
     head: {
@@ -15,15 +16,7 @@ export default defineNuxtConfig({
       ],
     },
   },
-  tailwindcss: {
-    config: {
-      theme: {
-        extend: {
-          colors: {
-            primary: "#b3c0d3",
-          },
-        },
-      },
-    },
-  },
+
+  compatibilityDate: "2024-11-17",
+  modules: ["@nuxtjs/tailwindcss"],
 });
