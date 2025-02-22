@@ -4,9 +4,9 @@
       <ChevronFirst :size="44" />
     </button>
     <button @click="play">
-      <Pause v-if="props.state.value" :size="48" />
+      <Pause v-if="state" :size="48" />
       <Play v-else :size="48" />
-      <audio class="hidden" :src="audioSrc.value" type="audio/mpeg">
+      <audio class="hidden" :src="audioSrc" type="audio/mpeg">
       </audio>
     </button>
     <button @click="next">
@@ -18,12 +18,12 @@
 <script lang="ts" setup>
 import { Play, Pause, ChevronLast, ChevronFirst } from "lucide-vue-next";
 
-const props = defineProps<{
-  audioSrc: Ref<string>;
-  state: Ref<boolean>;
+const { audioSrc, state } = defineProps<{
+  audioSrc: string;
+  state: boolean;
 }>();
 
-const emit = defineEmits(["play","last","next"]);
+const emit = defineEmits(["play", "last", "next"]);
 
 const play = () => {
   emit("play");

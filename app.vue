@@ -19,51 +19,51 @@ const musicModules = import.meta.glob('@/assets/music/*.m4a');
 
 const musicIndex = ref(0);
 
-const music = {
-  title: ref(musicJson[musicIndex.value].title),
-  author: ref(musicJson[musicIndex.value].author),
-  src: ref(await loadMusic()),
-  state: ref(false),
-};
+const music = ref({
+  title: musicJson[musicIndex.value].title,
+  author: musicJson[musicIndex.value].author,
+  src: await loadMusic(),
+  state: false,
+});
 
 loadMusic();
 
 watch(musicIndex, (index) => {
-  music.title.value = musicJson[index].title;
-  music.author.value = musicJson[index].author;
+  music.value.title = musicJson[index].title;
+  music.value.author = musicJson[index].author;
   loadMusic().then((src) => {
-    music.src.value = src;
+    music.value.src = src;
   });
 });
 
 const videoSrc = ref(videoFile);
 
 async function loadMusic() {
-    const module = await musicModules[`/assets/music/${musicJson[musicIndex.value].src}`]() as {default: string};
-    return module.default;
-  };
+  const module = await musicModules[`/assets/music/${musicJson[musicIndex.value].src}`]() as { default: string };
+  return module.default;
+};
 
 function play() {
   const audio = document.querySelector("audio") as HTMLAudioElement;
-  if (music.state.value) {
+  if (music.value.state) {
     audio.pause();
   } else {
     audio.play();
   }
-  music.state.value = !music.state.value;
-  
+  music.value.state = !music.value.state;
+
   audio.onended = () => {
-    music.state.value = false;
+    music.value.state = false;
   };
 }
 
 function last() {
   musicIndex.value = musicIndex.value === 0 ? musicJson.length - 1 : musicIndex.value - 1;
-  music.state.value = false;
+  music.value.state = false;
 }
 
 function next() {
   musicIndex.value = musicIndex.value === musicJson.length - 1 ? 0 : musicIndex.value + 1;
-  music.state.value = false;
+  music.value.state = false;
 }
 </script>
