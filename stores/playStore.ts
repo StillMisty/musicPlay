@@ -12,13 +12,13 @@ const importMusic = async (src: string) => {
 export const usePlayStore = defineStore("PlayStore", () => {
   let audioController: AudioController;
 
-  // 动态导入并初始化 AudioController
   const initAudioController = async () => {
     if (import.meta.client) {
       const initialAudioUrl = await importMusic(musicJson[0].src);
       audioController = new AudioController(initialAudioUrl);
     }
   };
+  // 异步初始化
   initAudioController();
 
   const playerState = ref<PlayerState>({
