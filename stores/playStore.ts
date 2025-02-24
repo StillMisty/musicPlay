@@ -42,25 +42,17 @@ export const usePlayStore = defineStore("PlayStore", () => {
     player.currentIndex = newIndex;
     player.current = player.musicJson[newIndex];
 
-    updatePlaybackState(false, await importMusic(player.current.src));
-
+    audioController.setSource(await importMusic(player.current.src));
+    if (player.isPlaying) {
+      audioController.togglePlay(true);
+    }
     // 更新视频
     useVideoStore().changeVideo();
   };
 
-  const updatePlaybackState = (isPlaying: boolean, source?: string): void => {
-    const { value: player } = playerState;
-    player.isPlaying = isPlaying;
-    audioController.togglePlay(isPlaying);
-
-    if (source) {
-      audioController.setSource(source);
-    }
-  };
-
   const togglePlay = () => {
-    const isPlaying = !playerState.value.isPlaying;
-    updatePlaybackState(isPlaying);
+    playerState.value.isPlaying = !playerState.value.isPlaying;
+    audioController.togglePlay(playerState.value.isPlaying);
   };
 
   return {

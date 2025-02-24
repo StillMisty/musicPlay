@@ -5,7 +5,10 @@ export class AudioController {
     // 确保只在客户端初始化 Audio
     if (typeof window !== "undefined") {
       this.audio = new Audio(src);
-      this.audio.loop = true;
+      this.audio.addEventListener("ended", () => {
+        // 播放结束后自动播放下一首
+        usePlayStore().changeTrack("next");
+      });
     }
   }
 
