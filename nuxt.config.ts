@@ -18,5 +18,5 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: "2024-11-17",
-  modules: ["@nuxtjs/tailwindcss"],
+  modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt"],
 });

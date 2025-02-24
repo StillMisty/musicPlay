@@ -11,5 +11,3 @@ const { title, author } = defineProps<{
   author: string;
 }>();
 </script>
-
-<style></style>
