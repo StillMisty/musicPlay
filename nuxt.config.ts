@@ -3,6 +3,10 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
+  build: {
+    transpile: ["vue"], // 添加 vue 到 transpile 列表
+  },
+
   app: {
     cdnURL: "./",
     head: {
@@ -17,6 +21,6 @@ export default defineNuxtConfig({
     },
   },
 
-  compatibilityDate: "2024-11-17",
   modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt"],
+  compatibilityDate: "2025-02-24",
 });
