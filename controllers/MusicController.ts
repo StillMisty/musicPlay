@@ -1,6 +1,5 @@
 import { playerState } from "@/stores/playStore";
 import { useVideoStore } from "@/stores/videoStore";
-
 /**
  * 更改音乐
  */
