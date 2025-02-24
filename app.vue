@@ -23,19 +23,22 @@
       class="flex flex-col items-center justify-around gap-4 opacity-50 md:w-96 md:gap-8"
     >
       <Introduction
-        :title="playerState.current.title"
-        :author="playerState.current.author"
+        :title="playState.current.title"
+        :author="playState.current.author"
       />
       <PlayMusic
-        :audioSrc="playerState.current.src"
-        :state="playerState.isPlaying"
+        :audioSrc="playState.current.src"
+        :state="playState.isPlaying"
       />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { playerState } from "@/stores/playStore";
+import { usePlayStore } from "@/stores/playStore";
 import { useVideoStore } from "@/stores/videoStore";
 
 const video = useVideoStore();
+
+const playStore = usePlayStore();
+const playState = playStore.playerState;
 </script>

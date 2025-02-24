@@ -3,18 +3,18 @@
     "id": 0,
     "title": "520AM",
     "author": "东洋雪莲",
-    "src": "/music/520AM.wav"
+    "src": "520AM.wav"
   },
   {
     "id": 1,
     "title": "苦茶子",
     "author": "东洋雪莲",
-    "src": "/music/苦茶子.wav"
+    "src": "苦茶子.wav"
   },
   {
     "id": 2,
     "title": "越来越不懂",
     "author": "东洋雪莲",
-    "src": "/music/越来越不懂.wav"
+    "src": "越来越不懂.wav"
   }
 ]

@@ -1,14 +1,13 @@
 <template>
   <div class="flex gap-4">
-    <button @click="changeTrack('prev')">
+    <button @click="playStore.changeTrack('prev')">
       <ChevronFirst :size="44" />
     </button>
-    <button @click="togglePlay">
-      <Pause v-if="state" :size="48" />
+    <button @click="playStore.togglePlay">
+      <Pause v-if="playStore.playerState.isPlaying" :size="48" />
       <Play v-else :size="48" />
-      <audio class="hidden" :src="audioSrc" type="audio/mpeg"></audio>
     </button>
-    <button @click="changeTrack('next')">
+    <button @click="playStore.changeTrack('next')">
       <ChevronLast :size="44" />
     </button>
   </div>
@@ -16,9 +15,7 @@
 
 <script lang="ts" setup>
 import { Play, Pause, ChevronLast, ChevronFirst } from "lucide-vue-next";
-import { changeTrack, togglePlay } from "@/controllers/MusicController";
-const { audioSrc, state } = defineProps<{
-  audioSrc: string;
-  state: boolean;
-}>();
+import { usePlayStore } from "@/stores/playStore";
+
+const playStore = usePlayStore();
 </script>

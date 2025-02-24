@@ -4,7 +4,6 @@ export interface PlayerState {
   currentIndex: number;
   isPlaying: boolean;
   current: Music;
-  audioController: AudioController;
   musicJson: Array<Music>;
 }
 
