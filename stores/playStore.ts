@@ -14,10 +14,9 @@ export const usePlayStore = defineStore("PlayStore", () => {
 
   // 动态导入并初始化 AudioController
   const initAudioController = async () => {
-    if (process.client) {
-      audioController = new AudioController(
-        await importMusic(musicJson[0]["src"]),
-      );
+    if (import.meta.client) {
+      const initialAudioUrl = await importMusic(musicJson[0].src);
+      audioController = new AudioController(initialAudioUrl);
     }
   };
   initAudioController();
