@@ -14,8 +14,8 @@
 </template>
 
 <script lang="ts" setup>
-import { Play, Pause, ChevronLast, ChevronFirst } from "lucide-vue-next";
 import { usePlayStore } from "@/stores/playStore";
+import { Play, Pause, ChevronLast, ChevronFirst } from "lucide-vue-next";
 
 const playStore = usePlayStore();
 </script>

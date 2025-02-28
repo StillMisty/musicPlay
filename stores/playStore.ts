@@ -1,8 +1,8 @@
-import { ref } from "vue";
-import type { PlayerState } from "@/types/PlayerState";
-import { AudioController } from "@/controllers/AudioController";
-import musicJson from "@/assets/music.json";
 import { useVideoStore } from "./videoStore";
+import musicJson from "@/assets/music.json";
+import { AudioController } from "@/controllers/AudioController";
+import type { PlayerState } from "@/types/PlayerState";
+import { ref } from "vue";
 
 const importMusic = async (src: string) => {
   const audioUrl = new URL(`../assets/music/${src}`, import.meta.url).href;
