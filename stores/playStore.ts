@@ -12,21 +12,21 @@ const importMusic = async (src: string) => {
 export const usePlayStore = defineStore("PlayStore", () => {
   let audioController: AudioController;
 
+  const musicIndex = Math.floor(Math.random() * musicJson.length);
+  const playerState = ref<PlayerState>({
+    currentIndex: 0,
+    isPlaying: false,
+    current: musicJson[musicIndex],
+    musicJson,
+  });
   const initAudioController = async () => {
     if (import.meta.client) {
-      const initialAudioUrl = await importMusic(musicJson[0].src);
+      const initialAudioUrl = await importMusic(musicJson[musicIndex].src);
       audioController = new AudioController(initialAudioUrl);
     }
   };
   // 异步初始化
   initAudioController();
-
-  const playerState = ref<PlayerState>({
-    currentIndex: 0,
-    isPlaying: false,
-    current: musicJson[0],
-    musicJson,
-  });
 
   const changeTrack = async (direction: "next" | "prev"): Promise<void> => {
     const { value: player } = playerState;
