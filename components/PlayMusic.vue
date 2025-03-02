@@ -1,5 +1,7 @@
 <template>
-  <div class="flex gap-4">
+  <div
+    class="flex gap-4 *:cursor-pointer *:hover:*:opacity-80 *:transition-opacity *:duration-300 *:ease-in-out"
+  >
     <button @click="playStore.changeTrack('prev')">
       <ChevronFirst :size="44" />
     </button>

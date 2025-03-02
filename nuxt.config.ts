@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -6,6 +7,15 @@ export default defineNuxtConfig({
   build: {
     transpile: ["vue"], // 添加 vue 到 transpile 列表
   },
+
+  modules: ["@pinia/nuxt"],
+  compatibilityDate: "2025-02-24",
+
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
+  css: ["~/assets/css/main.css"],
 
   app: {
     head: {
@@ -28,7 +38,4 @@ export default defineNuxtConfig({
       ],
     },
   },
-
-  modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt"],
-  compatibilityDate: "2025-02-24",
 });
