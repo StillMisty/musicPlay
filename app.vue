@@ -14,18 +14,21 @@
     <div
       class="flex flex-col items-center justify-around gap-4 opacity-50 md:w-96 md:gap-8"
     >
-      <Introduction
-        :title="playState.current.title"
-        :author="playState.current.author"
-      />
-      <PlayMusic
-        :audioSrc="playState.current.src"
-        :state="playState.isPlaying"
-      />
+      <div v-if="playStore.isLoading">
+        <LoaderCircle :size="64" class="animate-spin" />
+      </div>
+      <template v-else>
+        <Introduction />
+        <PlayMusic
+          :audioSrc="playState.musicList[playState.currentIndex].src"
+          :state="playState.isPlaying"
+      /></template>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
+import { LoaderCircle } from "lucide-vue-next";
+
 const videoStore = useVideoStore();
 
 const playStore = usePlayStore();

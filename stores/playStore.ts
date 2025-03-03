@@ -1,26 +1,35 @@
 import { useVideoStore } from "./videoStore";
-import musicJson from "@/assets/music.json";
 import { AudioController } from "@/controllers/AudioController";
 import type { PlayerState } from "@/types/PlayerState";
 
 export const usePlayStore = defineStore("PlayStore", () => {
   let audioController: AudioController | null = null;
 
-  const musicIndex = useState("musicIndex", () =>
-    Math.floor(Math.random() * musicJson.length),
-  );
+  const { data } = useFetch("/api/songs");
 
-  const playerState = ref<PlayerState>({
-    currentIndex: musicIndex.value,
+  let isLoading = ref(true);
+
+  const playerState: Ref<PlayerState> = ref({
+    currentIndex: 0,
     isPlaying: false,
-    current: musicJson[musicIndex.value],
-    musicJson,
+    musicList: [{ title: "", author: "", src: "" }],
+  });
+
+  watchEffect(() => {
+    if (data.value) {
+      isLoading.value = false;
+      playerState.value.currentIndex = Math.floor(
+        Math.random() * data.value.length,
+      );
+      playerState.value.musicList = data.value;
+    }
   });
 
   const ensureAudioController = async (): Promise<AudioController> => {
     if (import.meta.client) {
       if (!audioController) {
-        const initialAudioUrl = `/music/${playerState.value.current.src}`;
+        const initialAudioUrl =
+          playerState.value.musicList[playerState.value.currentIndex].src || "";
         audioController = new AudioController(initialAudioUrl);
       }
     }
@@ -29,20 +38,17 @@ export const usePlayStore = defineStore("PlayStore", () => {
 
   const changeTrack = async (direction: "next" | "prev"): Promise<void> => {
     const { value: player } = playerState;
-    const totalTracks = player.musicJson.length;
+    const total = player.musicList.length;
 
-    // 计算新的索引
-    const newIndex =
+    player.currentIndex =
       direction === "next"
-        ? (player.currentIndex + 1) % totalTracks
-        : (player.currentIndex - 1 + totalTracks) % totalTracks;
-
-    // 更新播放器状态
-    player.currentIndex = newIndex;
-    player.current = player.musicJson[newIndex];
+        ? (player.currentIndex + 1) % total
+        : (player.currentIndex - 1 + total) % total;
 
     const controller = await ensureAudioController();
-    controller.setSource(`/music/${player.current.src}`);
+    controller.setSource(
+      playerState.value.musicList[playerState.value.currentIndex].src,
+    );
 
     if (player.isPlaying) {
       controller.togglePlay(true);
@@ -53,6 +59,9 @@ export const usePlayStore = defineStore("PlayStore", () => {
   };
 
   const togglePlay = async () => {
+    // 如果没有曲目，不执行任何操作
+    if (playerState.value.musicList.length === 0) return;
+
     playerState.value.isPlaying = !playerState.value.isPlaying;
 
     const controller = await ensureAudioController();
@@ -63,5 +72,6 @@ export const usePlayStore = defineStore("PlayStore", () => {
     playerState,
     changeTrack,
     togglePlay,
+    isLoading,
   };
 });
