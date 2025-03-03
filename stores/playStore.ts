@@ -15,16 +15,20 @@ export const usePlayStore = defineStore("PlayStore", () => {
     musicList: [{ title: "", author: "", src: "" }],
   });
 
+  // 使 isLoading 与 data 同步
   watchEffect(() => {
     if (data.value) {
-      isLoading.value = false;
       playerState.value.currentIndex = Math.floor(
         Math.random() * data.value.length,
       );
       playerState.value.musicList = data.value;
+      isLoading.value = false;
     }
   });
 
+  /**
+   * 确保 AudioController 已经初始化
+   **/
   const ensureAudioController = async (): Promise<AudioController> => {
     if (import.meta.client) {
       if (!audioController) {
@@ -36,7 +40,11 @@ export const usePlayStore = defineStore("PlayStore", () => {
     return audioController as AudioController;
   };
 
-  const changeTrack = async (direction: "next" | "prev"): Promise<void> => {
+  /**
+   * 切换上一首或下一首
+   * @param direction - 切换方向
+   **/
+  async function changeTrack(direction: "next" | "prev"): Promise<void> {
     const { value: player } = playerState;
     const total = player.musicList.length;
 
@@ -56,8 +64,11 @@ export const usePlayStore = defineStore("PlayStore", () => {
 
     // 更新视频
     useVideoStore().changeVideo();
-  };
+  }
 
+  /**
+   * 播放或暂停
+   **/
   const togglePlay = async () => {
     // 如果没有曲目，不执行任何操作
     if (playerState.value.musicList.length === 0) return;

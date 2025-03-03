@@ -19,10 +19,8 @@
       </div>
       <template v-else>
         <Introduction />
-        <PlayMusic
-          :audioSrc="playState.musicList[playState.currentIndex].src"
-          :state="playState.isPlaying"
-      /></template>
+        <PlayMusic />
+      </template>
     </div>
   </div>
 </template>
@@ -32,5 +30,4 @@ import { LoaderCircle } from "lucide-vue-next";
 const videoStore = useVideoStore();
 
 const playStore = usePlayStore();
-const playState = playStore.playerState;
 </script>
