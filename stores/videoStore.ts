@@ -1,29 +1,18 @@
-const loadVideo = async (src: string) => {
-  // 动态导入视频模块
-  const videoUrl = new URL(`../assets/videos/${src}`, import.meta.url).href;
-  return videoUrl;
-};
-
 const videos = {
-  sources: ["lian1.mp4", "lian2.mp4", "lian3.mp4"],
-  async getRandomVideo(): Promise<string> {
+  sources: ["lian1.mp4", "lian2.mp4", "lian3.mp4", "lian4.mp4"],
+  getRandomVideo(): string {
     const randomIndex = Math.floor(Math.random() * this.sources.length);
-    return await loadVideo(this.sources[randomIndex]);
+    return `/videos/${this.sources[randomIndex]}`;
   },
 };
 
 export const useVideoStore = defineStore("VideoStore", () => {
-  const videoFile: Ref<null | string> = ref(null);
+  const videoFile = ref<string>(videos.getRandomVideo());
 
-  const initVideo = async () => {
-    videoFile.value = await videos.getRandomVideo();
-  };
-  initVideo();
-
-  const changeVideo = async () => {
+  const changeVideo = () => {
     let newVideo;
     do {
-      newVideo = await videos.getRandomVideo();
+      newVideo = videos.getRandomVideo();
     } while (newVideo === videoFile.value && videos.sources.length > 1);
 
     videoFile.value = newVideo;

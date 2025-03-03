@@ -2,12 +2,6 @@ import { useVideoStore } from "./videoStore";
 import musicJson from "@/assets/music.json";
 import { AudioController } from "@/controllers/AudioController";
 import type { PlayerState } from "@/types/PlayerState";
-import { ref } from "vue";
-
-const importMusic = async (src: string) => {
-  const audioUrl = new URL(`../assets/music/${src}`, import.meta.url).href;
-  return audioUrl;
-};
 
 export const usePlayStore = defineStore("PlayStore", () => {
   let audioController: AudioController | null = null;
@@ -26,9 +20,7 @@ export const usePlayStore = defineStore("PlayStore", () => {
   const ensureAudioController = async (): Promise<AudioController> => {
     if (import.meta.client) {
       if (!audioController) {
-        const initialAudioUrl = await importMusic(
-          playerState.value.current.src,
-        );
+        const initialAudioUrl = `/music/${playerState.value.current.src}`;
         audioController = new AudioController(initialAudioUrl);
       }
     }
@@ -50,7 +42,7 @@ export const usePlayStore = defineStore("PlayStore", () => {
     player.current = player.musicJson[newIndex];
 
     const controller = await ensureAudioController();
-    controller.setSource(await importMusic(player.current.src));
+    controller.setSource(`/music/${player.current.src}`);
 
     if (player.isPlaying) {
       controller.togglePlay(true);

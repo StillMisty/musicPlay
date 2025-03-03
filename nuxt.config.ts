@@ -38,4 +38,13 @@ export default defineNuxtConfig({
       ],
     },
   },
+
+  nitro: {
+    routeRules: {
+      // 为所有 public 中的资源设置缓存规则
+      "/favicon.ico": { cache: { maxAge: 60 * 60 * 24 * 30 } }, // 30天缓存
+      "/music/**": { cache: { maxAge: 60 * 60 * 24 * 7 } }, // 7天缓存音频文件
+      "/videos/**": { cache: { maxAge: 60 * 60 * 24 * 7 } }, // 7天缓存视频文件
+    },
+  },
 });
