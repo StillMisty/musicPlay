@@ -15,10 +15,10 @@ const videos = {
 export const useVideoStore = defineStore("VideoStore", () => {
   const videoFile: Ref<null | string> = ref(null);
 
-  const initVider = async () => {
+  const initVideo = async () => {
     videoFile.value = await videos.getRandomVideo();
   };
-  initVider();
+  initVideo();
 
   const changeVideo = async () => {
     let newVideo;
