@@ -10,7 +10,7 @@ const importMusic = async (src: string) => {
 };
 
 export const usePlayStore = defineStore("PlayStore", () => {
-  let audioController: AudioController;
+  let audioController: AudioController | null = null;
 
   const musicIndex = useState("musicIndex", () =>
     Math.floor(Math.random() * musicJson.length),
@@ -22,16 +22,18 @@ export const usePlayStore = defineStore("PlayStore", () => {
     current: musicJson[musicIndex.value],
     musicJson,
   });
-  const initAudioController = async () => {
+
+  const ensureAudioController = async (): Promise<AudioController> => {
     if (import.meta.client) {
-      const initialAudioUrl = await importMusic(
-        musicJson[musicIndex.value].src,
-      );
-      audioController = new AudioController(initialAudioUrl);
+      if (!audioController) {
+        const initialAudioUrl = await importMusic(
+          playerState.value.current.src,
+        );
+        audioController = new AudioController(initialAudioUrl);
+      }
     }
+    return audioController as AudioController;
   };
-  // 异步初始化
-  initAudioController();
 
   const changeTrack = async (direction: "next" | "prev"): Promise<void> => {
     const { value: player } = playerState;
@@ -47,17 +49,22 @@ export const usePlayStore = defineStore("PlayStore", () => {
     player.currentIndex = newIndex;
     player.current = player.musicJson[newIndex];
 
-    audioController.setSource(await importMusic(player.current.src));
+    const controller = await ensureAudioController();
+    controller.setSource(await importMusic(player.current.src));
+
     if (player.isPlaying) {
-      audioController.togglePlay(true);
+      controller.togglePlay(true);
     }
+
     // 更新视频
     useVideoStore().changeVideo();
   };
 
-  const togglePlay = () => {
+  const togglePlay = async () => {
     playerState.value.isPlaying = !playerState.value.isPlaying;
-    audioController.togglePlay(playerState.value.isPlaying);
+
+    const controller = await ensureAudioController();
+    controller.togglePlay(playerState.value.isPlaying);
   };
 
   return {
